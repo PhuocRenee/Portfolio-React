@@ -1,8 +1,31 @@
 import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+
+const schema = yup
+  .object({
+    firstName: yup.string().required(),
+    email: yup.string().email().required(),
+    message: yup.string().required(),
+  })
+  .required();
 
 export default function Contact() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(schema),
+  });
+
+  // const submitForm = (data) => {
+  //   console.log(data);
+  // };
+
   const [mailerState, setMailerState] = useState({
-    name: "",
+    firstName: "",
     email: "",
     message: "",
   });
@@ -15,7 +38,7 @@ export default function Contact() {
   }
 
   const submitEmail = async (e) => {
-    e.preventDefault();
+    // e.preventDefault();
     console.log({ mailerState });
     const response = await fetch("http://localhost:4000/send", {
       method: "POST",
@@ -37,7 +60,7 @@ export default function Contact() {
       .then(() => {
         setMailerState({
           email: "",
-          name: "",
+          firstName: "",
           message: "",
         });
       });
@@ -52,7 +75,7 @@ export default function Contact() {
           justifyContent: "center",
           aligntItems: "center",
         }}
-        onSubmit={submitEmail}
+        onSubmit={handleSubmit(submitEmail)}
       >
         <fieldset
           style={{
@@ -62,26 +85,36 @@ export default function Contact() {
             width: "50%",
           }}
         >
-          <legend>React NodeMailer Contact Form</legend>
+          <legend>CONTACT US</legend>
           <input
+            {...register("firstName")}
+            type="text"
             placeholder="Name"
             onChange={handleStateChange}
-            name="name"
-            value={mailerState.name}
+            name="firstName"
+            value={mailerState.firstName}
           />
+          <p>{errors.firstName?.message}</p>
+
           <input
+            {...register("email")}
+            type="text"
             placeholder="Email"
             onChange={handleStateChange}
             name="email"
             value={mailerState.email}
           />
+          <p>{errors.email?.message}</p>
           <textarea
+            {...register("message")}
+            type="text"
             style={{ minHeight: "200px" }}
             placeholder="Message"
             onChange={handleStateChange}
             name="message"
             value={mailerState.message}
           />
+          <p>{errors.message?.message}</p>
           <button>SendMessage</button>
         </fieldset>
       </form>
