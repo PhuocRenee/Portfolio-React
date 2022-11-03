@@ -5,7 +5,11 @@ import * as yup from "yup";
 
 const schema = yup
   .object({
-    firstName: yup.string().required(),
+    firstName: yup
+      .string()
+      .min(3, "Please, enter a valid name")
+      .max(15)
+      .required(),
     email: yup.string().email().required(),
     message: yup.string().required(),
   })
@@ -19,10 +23,6 @@ export default function Contact() {
   } = useForm({
     resolver: yupResolver(schema),
   });
-
-  // const submitForm = (data) => {
-  //   console.log(data);
-  // };
 
   const [mailerState, setMailerState] = useState({
     firstName: "",

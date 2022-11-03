@@ -9,11 +9,14 @@ require("dotenv").config();
 app.use(express.json());
 app.use(cors());
 
-// yup validation
-
+// // yup validation
 const schema1 = yup.object({
   body: yup.object({
-    fisrtName: yup.string().required(),
+    firstName: yup
+      .string()
+      .min(3, "Please, enter a valid name")
+      .max(15)
+      .required(),
     email: yup.string().email("insert correct email").required(),
     message: yup.string().max(1000).required(),
   }),
@@ -21,9 +24,7 @@ const schema1 = yup.object({
 const validate = (schema) => async (req, res, next) => {
   try {
     await schema.validate({
-      body: req.body,
-      // query: req.query,
-      // params: req.params,
+      body: req.body.mailerState,
     });
 
     next();
@@ -32,6 +33,12 @@ const validate = (schema) => async (req, res, next) => {
   }
 };
 // end yup validation
+
+const confirm = () => (req, res, next) => {
+  console.log("hi");
+  console.log(req.body);
+  next();
+};
 
 let transporter = nodemailer.createTransport({
   service: "gmail",
@@ -47,11 +54,11 @@ let transporter = nodemailer.createTransport({
 
 transporter.verify((err, success) => {
   err
-    ? console.log(err)
+    ? console.log("that's the error: " + err)
     : console.log(`=== Server is ready to take messages: ${success} ===`);
 });
 
-app.post("/send", validate(schema1), function (req, res) {
+app.post("/send", confirm(), validate(schema1), function (req, res) {
   let mailOptions = {
     from: `${req.body.mailerState.email}`,
     to: process.env.EMAIL,
