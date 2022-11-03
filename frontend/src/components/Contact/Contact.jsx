@@ -67,7 +67,7 @@ export default function Contact() {
   };
 
   return (
-    <div className="App">
+    <section className="App">
       <form
         style={{
           display: "flex",
@@ -118,6 +118,6 @@ export default function Contact() {
           <button>SendMessage</button>
         </fieldset>
       </form>
-    </div>
+    </section>
   );
 }
