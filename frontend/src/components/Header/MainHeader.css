@@ -1,0 +1,14 @@
+div:after {
+  display: block;
+  content: "";
+  border-bottom: solid 8px #09d9fe;
+  transform: scaleX(0);
+  transition: transform 250ms ease-in-out;
+}
+div.fromLeft:hover:after {
+  transform: scaleX(1);
+}
+
+div.fromLeft:after {
+  transform-origin: 0% 50%;
+}

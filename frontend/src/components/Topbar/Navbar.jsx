@@ -118,7 +118,10 @@ const Navbar = () => {
             {anchors.map((page) => (
               <Button
                 key={page}
-                onClick={() => (window.location = `#${page}`)}
+                onClick={(e) => {
+                  e.preventDefault;
+                  window.location = `#${page}`;
+                }}
                 sx={{
                   my: 2,
                   display: "block",

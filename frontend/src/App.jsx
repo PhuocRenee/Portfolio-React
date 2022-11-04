@@ -1,5 +1,5 @@
+import MainHeader from "./components/Header/MainHeader";
 import Contact from "./components/Contact/Contact";
-import Topbar from "./components/Topbar/Topbar";
 import Navbar from "./components/Topbar/Navbar";
 import About from "./components/About/About";
 import Projects from "./components/Projects/Projects";
@@ -13,6 +13,7 @@ function App() {
         <Navbar />
       </header>
       <main>
+        <MainHeader />
         <Projects />
         <About />
         <Contact />
