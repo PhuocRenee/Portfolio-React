@@ -1,5 +1,5 @@
 import React from "react";
 
 export default function Projects() {
-  return <section>Projects</section>;
+  return <section id="Projects">Projects</section>;
 }

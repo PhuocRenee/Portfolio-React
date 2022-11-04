@@ -1,5 +1,9 @@
 import React from "react";
 
 export default function About() {
-  return <section>About</section>;
+  return (
+    <section id="About" style={{ height: "50vh" }}>
+      About
+    </section>
+  );
 }

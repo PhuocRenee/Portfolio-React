@@ -67,7 +67,7 @@ export default function Contact() {
   };
 
   return (
-    <section className="App">
+    <section id="Contact" className="App">
       <form
         style={{
           display: "flex",
