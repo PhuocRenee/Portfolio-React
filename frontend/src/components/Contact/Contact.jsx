@@ -24,6 +24,8 @@ export default function Contact() {
     resolver: yupResolver(schema),
   });
 
+  const port = process.env.PORT || 4000;
+
   const [mailerState, setMailerState] = useState({
     firstName: "",
     email: "",
@@ -40,7 +42,7 @@ export default function Contact() {
   const submitEmail = async (e) => {
     // e.preventDefault();
     console.log({ mailerState });
-    const response = await fetch("http://localhost:4000/send", {
+    const response = await fetch(`http://localhost:${port}`, {
       method: "POST",
       headers: {
         "Content-type": "application/json",
