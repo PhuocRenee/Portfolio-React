@@ -4,10 +4,14 @@ const app = express();
 const cors = require("cors");
 const yup = require("yup");
 require("dotenv").config();
+const path = require("path");
 
 // middleware
 app.use(express.json());
 app.use(cors());
+
+// Serve static files from the React frontend app
+app.use(express.static(path.join(__dirname, "../frontend/build")));
 
 // // yup validation
 const schema1 = yup.object({
@@ -78,6 +82,11 @@ app.post("/send", confirm(), validate(schema1), function (req, res) {
       });
     }
   });
+});
+
+// AFTER defining routes: Anything that doesn't match what's above, send back index.html; (the beginning slash ('/') in the string is important!)
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname + "/../frontend/build/index.html"));
 });
 
 const port = 4000;
