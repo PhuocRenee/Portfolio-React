@@ -42,7 +42,7 @@ export default function Contact() {
   const submitEmail = async (e) => {
     // e.preventDefault();
     console.log({ mailerState });
-    const response = await fetch(`http://localhost:${port}`, {
+    const response = await fetch(`http://localhost:${port}/send`, {
       method: "POST",
       headers: {
         "Content-type": "application/json",
