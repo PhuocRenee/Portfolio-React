@@ -90,4 +90,8 @@ app.get("*", (req, res) => {
 });
 
 const port = 4000;
-app.listen(port, () => console.log(`Server is running on port: ${port}`));
+app.listen(process.env.PORT || port, () =>
+  console.log(
+    `Server is running on port: ${process.env.PORT} (Heroku) or ${port} (local)`
+  )
+);
