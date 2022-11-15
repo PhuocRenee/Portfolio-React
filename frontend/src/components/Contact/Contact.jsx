@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import { Typography, TextField, Button, styled, Grid } from "@mui/material";
 
 const schema = yup
   .object({
@@ -14,6 +15,23 @@ const schema = yup
     message: yup.string().required(),
   })
   .required();
+
+const CustomTextField = styled(TextField)(({ theme }) => ({
+  width: "80%",
+  border: "2px",
+  borderRadius: 10,
+  margin: 1,
+  backgroundColor: theme.palette.third.main,
+  "& label": {
+    marginLeft: "2%",
+  },
+  "& input": {
+    marginLeft: "2%",
+  },
+  "& textArea": {
+    marginLeft: "2%",
+  },
+}));
 
 export default function Contact() {
   const {
@@ -46,7 +64,7 @@ export default function Contact() {
       method: "POST",
       headers: {
         "Content-type": "application/json",
-        "accepts": "application/json",
+        accepts: "application/json",
       },
       body: JSON.stringify({ mailerState }),
     })
@@ -70,57 +88,95 @@ export default function Contact() {
   };
 
   return (
-    <section id="Contact" className="App">
-      <form
-        style={{
-          display: "flex",
-          height: "50vh",
-          justifyContent: "center",
-          aligntItems: "center",
-        }}
-        onSubmit={handleSubmit(submitEmail)}
+    <Grid
+      container
+      spacing={0}
+      direction="column"
+      alignItems="center"
+      justify="center"
+      component="form"
+      aligntItems="center"
+      autoComplete="off"
+      onSubmit={handleSubmit(submitEmail)}
+    >
+      <Typography
+        variant="h6"
+        color="second"
+        component="h2"
+        backgroundColor="second"
+        gutterBottom
       >
-        <fieldset
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            width: "50%",
-          }}
-        >
-          <legend>CONTACT US</legend>
-          <input
-            {...register("firstName")}
-            type="text"
-            placeholder="Name"
-            onChange={handleStateChange}
-            name="firstName"
-            value={mailerState.firstName}
-          />
-          <p>{errors.firstName?.message}</p>
+        CONTACT US
+      </Typography>
+      <br />
+      <CustomTextField
+        {...register("firstName")}
+        label="NAME"
+        type="text"
+        placeholder="Name"
+        onChange={handleStateChange}
+        name="firstName"
+        value={mailerState.firstName}
+        required
+        fullWidth
+        variant="standard"
+        InputProps={{
+          disableUnderline: true,
+        }}
 
-          <input
-            {...register("email")}
-            type="text"
-            placeholder="Email"
-            onChange={handleStateChange}
-            name="email"
-            value={mailerState.email}
-          />
-          <p>{errors.email?.message}</p>
-          <textarea
-            {...register("message")}
-            type="text"
-            style={{ minHeight: "200px" }}
-            placeholder="Message"
-            onChange={handleStateChange}
-            name="message"
-            value={mailerState.message}
-          />
-          <p>{errors.message?.message}</p>
-          <button>SendMessage</button>
-        </fieldset>
-      </form>
-    </section>
+        //   error={true}
+      ></CustomTextField>
+      <Typography variant="body2" color="second" component="h2">
+        {errors.firstName?.message}
+      </Typography>
+      <br />
+      <CustomTextField
+        {...register("email")}
+        label="EMAIL"
+        type="text"
+        placeholder="Email"
+        onChange={handleStateChange}
+        name="email"
+        value={mailerState.email}
+        required
+        variant="standard"
+        InputProps={{
+          disableUnderline: true,
+        }}
+      ></CustomTextField>
+      <Typography variant="body2" color="second" component="h2">
+        {errors.email?.message}
+      </Typography>
+      <br />
+      <CustomTextField
+        {...register("message")}
+        backgroundcolor="second"
+        label="YOUR MESSAGE"
+        type="text"
+        placeholder="Message"
+        onChange={handleStateChange}
+        name="message"
+        multiline
+        rows={4}
+        required
+        value={mailerState.message}
+        variant="standard"
+        InputProps={{
+          disableUnderline: true,
+        }}
+      ></CustomTextField>
+      <Typography variant="body2" color="second" component="h2">
+        {errors.message?.message}
+      </Typography>
+      <br />
+      <Button
+        type="submit"
+        color="second"
+        variant="contained"
+        sx={{ borderRadius: 3, margin: 1 }}
+      >
+        Send Message
+      </Button>
+    </Grid>
   );
 }
